@@ -1,0 +1,22 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchFragment">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="org.maroc.jobfinder.fragments.SearchFragment"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="org.maroc.jobfinder.fragments.FavoritesFragment"
+        tools:layout="@layout/fragment_favorites" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="org.maroc.jobfinder.fragments.SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+
+</navigation>
