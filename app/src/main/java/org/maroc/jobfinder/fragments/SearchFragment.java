@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -40,12 +41,11 @@ public class SearchFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("FRAGMENT_LIFECYCLE", "onViewCreated called");
 
-        searchButton = view.findViewById(R.id.searchButton);
         searchInput = view.findViewById(R.id.searchEditText);
         recyclerView = view.findViewById(R.id.resultsRecyclerView);
 
@@ -53,12 +53,15 @@ public class SearchFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(jobOfferAdapter);
 
-    }
-    public void onSearchButtonClick(View view) {
-        Log.d("BUTTON_CLICK", "Search button clicked");
-        performSearch(searchInput.getText().toString());
-    }
+        ImageButton searchButton = view.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(v -> {
+            Log.d("BUTTON_CLICK", "Search button clicked");
+            Toast.makeText(getContext(), "Search button clicked", Toast.LENGTH_SHORT).show();
+            performSearch(searchInput.getText().toString());
+        });
 
+
+    }
     private void performSearch(String query) {
         if (query.isEmpty()) {
             Toast.makeText(getContext(), "Veuillez entrer un terme de recherche", Toast.LENGTH_SHORT).show();
