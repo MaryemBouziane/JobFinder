@@ -2,21 +2,24 @@ package org.maroc.jobfinder.models;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.moshi.Json;
 
 import java.util.ArrayList;
 import java.util.List;
 public class JobOffer {
+    @Json(name = "id")
     private String id;
+    @Json(name = "intitule")
     private String title;
-    private String company;
-    private String location;
+
+
+
+    @Json(name = "description")
     private String description;
 
     public JobOffer(String id, String title, String company, String location, String description) {
         this.id = id;
         this.title = title;
-        this.company = company;
-        this.location = location;
         this.description = description;
     }
 
@@ -34,22 +37,6 @@ public class JobOffer {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getDescription() {

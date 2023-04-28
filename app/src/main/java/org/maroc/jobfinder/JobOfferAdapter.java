@@ -32,8 +32,8 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
     public void onBindViewHolder(@NonNull JobOfferViewHolder holder, int position) {
         JobOffer jobOffer = jobOffers.get(position);
         holder.title.setText(jobOffer.getTitle());
-        holder.company.setText(jobOffer.getCompany());
-        holder.location.setText(jobOffer.getLocation());
+        holder.company.setText(jobOffer.getId());
+        holder.location.setText(jobOffer.getDescription());
     }
 
     @Override
@@ -41,7 +41,7 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
         return jobOffers.size();
     }
 
-    public void updateData(List<JobOffer> jobOffers) {
+    public void setJobOffers(List<JobOffer> jobOffers) {
         this.jobOffers = jobOffers;
         notifyDataSetChanged();
     }

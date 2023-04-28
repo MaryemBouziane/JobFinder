@@ -69,6 +69,7 @@ public class SearchFragment extends Fragment {
 
 
     }
+
     private void performSearch(String query) {
         if (query.isEmpty()) {
             Toast.makeText(getContext(), "Veuillez entrer un terme de recherche.", Toast.LENGTH_SHORT).show();
@@ -93,8 +94,10 @@ public class SearchFragment extends Fragment {
                                 //System.out.println(jobOffers);
                            //     System.out.println( jobOffers.getJobOffers().get(0));
                                 if(jobOffers!=null) {
-                                    Toast.makeText(getContext(), jobOffers.getJobOffers().get(0).getTitle(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), jobOffers.getJobOffers().get(0).getId(), Toast.LENGTH_SHORT).show();
                                     Log.d("BUTTON_CLICK", jobOffers.getJobOffers().get(0).getTitle());
+                                    jobOfferAdapter.setJobOffers(jobOffers.getJobOffers());
+                                    jobOfferAdapter.notifyDataSetChanged();
 
                                 }else{
                                     Toast.makeText(getContext(),  "not found", Toast.LENGTH_SHORT).show();

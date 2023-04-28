@@ -11,11 +11,15 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
-        <ImageView
+
+        <TextView
             android:id="@+id/companyLogo"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:scaleType="centerCrop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Job Title"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
