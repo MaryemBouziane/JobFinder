@@ -5,44 +5,58 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class JobOffer {
+    private String id;
     private String title;
-    private String companyName;
-    private String logoUrl;
+    private String company;
+    private String location;
+    private String description;
 
-    public JobOffer(String title, String companyName, String logoUrl) {
+    public JobOffer(String id, String title, String company, String location, String description) {
+        this.id = id;
         this.title = title;
-        this.companyName = companyName;
-        this.logoUrl = logoUrl;
+        this.company = company;
+        this.location = location;
+        this.description = description;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getLogoUrl() {
-        return logoUrl;
+    public String getCompany() {
+        return company;
     }
 
-    public static List<JobOffer> fromJsonArray(String json) {
-        List<JobOffer> jobOffers = new ArrayList<>();
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
-        JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+    public String getLocation() {
+        return location;
+    }
 
-            String title = jsonObject.get("title").getAsString();
-            String companyName = jsonObject.get("companyName").getAsString();
-            String logoUrl = jsonObject.get("logoUrl").getAsString();
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-            jobOffers.add(new JobOffer(title, companyName, logoUrl));
-        }
+    public String getDescription() {
+        return description;
+    }
 
-        return jobOffers;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

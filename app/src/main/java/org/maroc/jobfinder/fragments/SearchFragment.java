@@ -1,12 +1,10 @@
 package org.maroc.jobfinder.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -20,14 +18,17 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.maroc.jobfinder.JobOfferAdapter;
 import org.maroc.jobfinder.R;
-import org.maroc.jobfinder.api.PoleEmploiService;
+import org.maroc.jobfinder.api.AccessToken;
+import org.maroc.jobfinder.api.JobOffersResponse;
+import org.maroc.jobfinder.api.PoleEmploiApi;
 import org.maroc.jobfinder.models.JobOffer;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
 
@@ -36,6 +37,12 @@ public class SearchFragment extends Fragment {
     private JobOfferAdapter jobOfferAdapter;
     private ImageButton searchButton;
 
+
+
+
+    // Ajoutez ces membres à votre classe
+
+    private JobOffersResponse jobOffersApiService;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search, container, false);
@@ -53,7 +60,7 @@ public class SearchFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(jobOfferAdapter);
 
-        ImageButton searchButton = view.findViewById(R.id.searchButton);
+         searchButton = view.findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> {
             Log.d("BUTTON_CLICK", "Search button clicked");
             Toast.makeText(getContext(), "Search button clicked", Toast.LENGTH_SHORT).show();
@@ -64,39 +71,56 @@ public class SearchFragment extends Fragment {
     }
     private void performSearch(String query) {
         if (query.isEmpty()) {
-            Toast.makeText(getContext(), "Veuillez entrer un terme de recherche", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Veuillez entrer un terme de recherche.", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        PoleEmploiService poleEmploiService = new PoleEmploiService();
-        Executor executor = Executors.newSingleThreadExecutor();
-
-        new AsyncTask<Void, Void, Void>() {
+        PoleEmploiApi api = new PoleEmploiApi();
+        // Obtenir l'access token
+        api.getAccessToken().enqueue(new Callback<AccessToken>() {
             @Override
-            protected Void doInBackground(Void... voids) {
-                try {
-                    String accessToken = poleEmploiService.getAccessToken();
-                    Log.d("PERFORM_SEARCH", "Access token: " + accessToken);
+            public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
+                if (response.isSuccessful()) {
+                    String accessToken = response.body().getAccessToken();
 
-                    String searchResult = poleEmploiService.searchJobOffers(accessToken, query, "75", "0-9");
-                    Log.d("PERFORM_SEARCH", "Search result: " + searchResult);
+                    // Rechercher des offres d'emploi avec l'access token
+                    api.searchJobOffers(accessToken, query, "75", "0-9").enqueue(new Callback<JobOffersResponse>() {
+                        @Override
+                        public void onResponse(Call<JobOffersResponse> call, Response<JobOffersResponse> response) {
+                            if (response.isSuccessful()) {
+                                JobOffersResponse jobOffers = response.body();
+                              //  System.out.println("1");
 
-                    // Convert the searchResult JSON to a list of JobOffer objects
-                    List<JobOffer> jobOffers = JobOffer.fromJsonArray(searchResult);
-                    Log.d("PERFORM_SEARCH", "Job offers size: " + jobOffers.size());
+                                //System.out.println(jobOffers);
+                           //     System.out.println( jobOffers.getJobOffers().get(0));
+                                if(jobOffers!=null) {
+                                    Toast.makeText(getContext(), jobOffers.getJobOffers().get(0).getTitle(), Toast.LENGTH_SHORT).show();
+                                    Log.d("BUTTON_CLICK", jobOffers.getJobOffers().get(0).getTitle());
 
-                    getActivity().runOnUiThread(() -> {
-                        jobOfferAdapter.updateData(jobOffers);
+                                }else{
+                                    Toast.makeText(getContext(),  "not found", Toast.LENGTH_SHORT).show();
+                                } //  System.out.println("2");
+                            } else {
+                              //  System.out.println("Erreur lors de la récupération des offres d'emploi");
+                                Toast.makeText(getContext(),  "Erreur lors de la récupération des offres d'emploi", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JobOffersResponse> call, Throwable t) {
+                            t.printStackTrace();
+                        }
                     });
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("PERFORM_SEARCH", "Error: " + e.getMessage());
+                } else {
+                   // System.out.println("Erreur lors de la récupération de l'access token");
                 }
-                return null;
             }
-        }.executeOnExecutor(executor);
-    }
 
+            @Override
+            public void onFailure(Call<AccessToken> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
 
 }

@@ -5,22 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.maroc.jobfinder.models.JobOffer;
-
-import java.util.List;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import org.maroc.jobfinder.models.JobOffer;
 
 import java.util.List;
 
@@ -35,16 +23,17 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
     @NonNull
     @Override
     public JobOfferViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.job_offer_item, parent, false);
-        return new JobOfferViewHolder(view);
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.job_offer_item, parent, false);
+        return new JobOfferViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull JobOfferViewHolder holder, int position) {
         JobOffer jobOffer = jobOffers.get(position);
         holder.title.setText(jobOffer.getTitle());
-        holder.companyName.setText(jobOffer.getCompanyName());
-        Picasso.get().load(jobOffer.getLogoUrl()).into(holder.logo);
+        holder.company.setText(jobOffer.getCompany());
+        holder.location.setText(jobOffer.getLocation());
     }
 
     @Override
@@ -52,24 +41,21 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
         return jobOffers.size();
     }
 
-    public void updateData(List<JobOffer> newJobOffers) {
-        this.jobOffers = newJobOffers;
+    public void updateData(List<JobOffer> jobOffers) {
+        this.jobOffers = jobOffers;
         notifyDataSetChanged();
     }
 
-    class JobOfferViewHolder extends RecyclerView.ViewHolder {
-
+    public static class JobOfferViewHolder extends RecyclerView.ViewHolder {
         TextView title;
-        TextView companyName;
-        ImageView logo;
+        TextView company;
+        TextView location;
 
         public JobOfferViewHolder(@NonNull View itemView) {
             super(itemView);
-
             title = itemView.findViewById(R.id.jobTitle);
-            companyName = itemView.findViewById(R.id.additionalInfo);
-            logo = itemView.findViewById(R.id.companyLogo);
+            company = itemView.findViewById(R.id.companyLogo);
+            location = itemView.findViewById(R.id.additionalInfo);
         }
     }
 }
-

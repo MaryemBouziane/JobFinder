@@ -1,26 +1,31 @@
 package org.maroc.jobfinder.api;
-
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
+import retrofit2.Retrofit;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
-public interface PoleEmploiApi {
+public class PoleEmploiApi {
+    private static final String CLIENT_ID = "PAR_applicationpourtrouve_69c49c8f63613d29cc8f694bcdd24c5df2681f438f8fadeb269c682abd49990e";
+    private static final String CLIENT_SECRET = "dc837ff93feda7a6e0cbad73995ac8f8194e9e2fd36896c9997e0ec14f5116b0";
+    private static final String SCOPE = "api_offresdemploiv2 o2dsoffre";
+    private static final String GRANT_TYPE = "client_credentials";
 
-    @FormUrlEncoded
-    @POST("https://entreprise.pole-emploi.fr/connexion/oauth2/access_token?realm=%2Fpartenaire")
-    Call<String> getAccessToken(
-            @Field("grant_type") String grantType,
-            @Field("client_id") String clientId,
-            @Field("client_secret") String clientSecret,
-            @Field("scope") String scope
-    );
+    private final PoleEmploiApiService service;
 
-    @POST("https://api.emploi-store.fr/partenaire/offresdemploi/v2/offres/search")
-    Call<String> searchJobOffers(
-            @Query("motsCles") String motsCles,
-            @Query("localisation") String localisation,
-            @Query("range") String range
-    );
+    public PoleEmploiApi() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.emploi-store.fr")
+                .addConverterFactory(MoshiConverterFactory.create())
+                .build();
+
+        service = retrofit.create(PoleEmploiApiService.class);
+    }
+
+    public Call<AccessToken> getAccessToken() {
+        return service.getAccessToken(GRANT_TYPE, CLIENT_ID, CLIENT_SECRET, SCOPE);
+    }
+
+    public Call<JobOffersResponse> searchJobOffers(String accessToken, String keywords, String location, String range) {
+        String authorization = "Bearer " + accessToken;
+        return service.searchJobOffers(authorization, keywords, location, range);
+    }
 }
