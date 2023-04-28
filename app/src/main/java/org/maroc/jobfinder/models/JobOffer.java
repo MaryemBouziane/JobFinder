@@ -12,15 +12,16 @@ public class JobOffer {
     @Json(name = "intitule")
     private String title;
 
-
-
     @Json(name = "description")
     private String description;
+    @Json(name = "entreprise.logo")
+    private String logoURL;
 
-    public JobOffer(String id, String title, String company, String location, String description) {
+    public JobOffer(String id, String title, String company, String location, String description,String logoURL) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.logoURL=logoURL;
     }
 
     public String getId() {
@@ -45,5 +46,14 @@ public class JobOffer {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoURL = logoURL;
+    }
+
+    public String getLogoUrl() {
+        return logoURL;
     }
 }

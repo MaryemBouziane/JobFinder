@@ -3,10 +3,13 @@ package org.maroc.jobfinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import org.maroc.jobfinder.models.JobOffer;
 
@@ -27,13 +30,21 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
                 .inflate(R.layout.job_offer_item, parent, false);
         return new JobOfferViewHolder(itemView);
     }
-
+    ImageView companyLogo;
     @Override
     public void onBindViewHolder(@NonNull JobOfferViewHolder holder, int position) {
         JobOffer jobOffer = jobOffers.get(position);
         holder.title.setText(jobOffer.getTitle());
-        holder.company.setText(jobOffer.getId());
-        holder.location.setText(jobOffer.getDescription());
+        holder.description.setText(jobOffer.getDescription());
+        //  Picasso pour charger l'image à partir de l'URL
+        String imageUrl = jobOffer.getLogoUrl();
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Picasso.get()
+                    .load(imageUrl)
+       .into(holder.companyLogo);
+        } else {
+            holder.companyLogo.setImageResource(R.drawable.placeholder_image); // Remplacez 'placeholder_image' par le nom de l'image par défaut que vous souhaitez afficher
+        }
     }
 
     @Override
@@ -48,14 +59,14 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
 
     public static class JobOfferViewHolder extends RecyclerView.ViewHolder {
         TextView title;
-        TextView company;
-        TextView location;
+        TextView description;
+        ImageView companyLogo;
 
         public JobOfferViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.jobTitle);
-            company = itemView.findViewById(R.id.companyLogo);
-            location = itemView.findViewById(R.id.additionalInfo);
+            companyLogo = itemView.findViewById(R.id.companyLogo);
+            description = itemView.findViewById(R.id.additionalInfo);
         }
     }
 }
