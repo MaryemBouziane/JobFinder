@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -30,21 +32,31 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
                 .inflate(R.layout.job_offer_item, parent, false);
         return new JobOfferViewHolder(itemView);
     }
-    ImageView companyLogo;
+
     @Override
     public void onBindViewHolder(@NonNull JobOfferViewHolder holder, int position) {
         JobOffer jobOffer = jobOffers.get(position);
-        holder.title.setText(jobOffer.getTitle());
-        holder.description.setText(jobOffer.getDescription());
-        //  Picasso pour charger l'image à partir de l'URL
-        String imageUrl = jobOffer.getLogoUrl();
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Picasso.get()
-                    .load(imageUrl)
-       .into(holder.companyLogo);
+        holder.bind(jobOffer);
+
+        ConstraintLayout constraintLayout = holder.itemView.findViewById(R.id.constraintLayout);
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(constraintLayout);
+
+        if (position % 2 == 0) {
+            // Photo à gauche et texte à droite pour les éléments pairs
+            constraintSet.connect(R.id.companyLogo, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+            constraintSet.connect(R.id.companyLogo, ConstraintSet.END, R.id.jobTitle, ConstraintSet.START);
+            constraintSet.connect(R.id.jobTitle, ConstraintSet.START, R.id.companyLogo, ConstraintSet.END);
         } else {
-            holder.companyLogo.setImageResource(R.drawable.placeholder_image); // Remplacez 'placeholder_image' par le nom de l'image par défaut que vous souhaitez afficher
+            // Photo à droite et texte à gauche pour les éléments impairs
+            constraintSet.connect(R.id.companyLogo, ConstraintSet.START, R.id.jobTitle, ConstraintSet.END, 16); // Ajoutez une marge de 16dp
+            constraintSet.connect(R.id.companyLogo, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+            constraintSet.connect(R.id.jobTitle, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+            constraintSet.connect(R.id.jobTitle, ConstraintSet.END, R.id.companyLogo, ConstraintSet.START, 16); // Ajoutez une marge de 16dp
         }
+
+
+        constraintSet.applyTo(constraintLayout);
     }
 
     @Override
@@ -57,10 +69,25 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
         notifyDataSetChanged();
     }
 
-    public static class JobOfferViewHolder extends RecyclerView.ViewHolder {
+    public class JobOfferViewHolder extends RecyclerView.ViewHolder {
+
         TextView title;
         TextView description;
         ImageView companyLogo;
+
+        public void bind(JobOffer jobOffer) {
+            title.setText(jobOffer.getTitle());
+            description.setText(jobOffer.getDescription());
+
+            String imageUrl = jobOffer.getLogoUrl();
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                Picasso.get()
+                        .load(imageUrl)
+                        .into(companyLogo);
+            } else {
+                companyLogo.setImageResource(R.drawable.placeholder_image); // Remplacez 'placeholder_image' par le nom de l'image par défaut que vous souhaitez afficher
+            }
+        }
 
         public JobOfferViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,4 +96,5 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
             description = itemView.findViewById(R.id.additionalInfo);
         }
     }
+
 }

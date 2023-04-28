@@ -12,7 +12,7 @@ public class JobOffer {
     @Json(name = "intitule")
     private String title;
 
-    @Json(name = "description")
+    @Json(name = "dateCreation")
     private String description;
     @Json(name = "entreprise.logo")
     private String logoURL;
