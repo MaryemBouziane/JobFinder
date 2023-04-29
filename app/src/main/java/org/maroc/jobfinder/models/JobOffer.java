@@ -4,9 +4,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.moshi.Json;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-public class JobOffer {
+public class JobOffer implements Serializable {
     @Json(name = "id")
     private String id;
     @Json(name = "intitule")
