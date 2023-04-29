@@ -1,5 +1,6 @@
 package org.maroc.jobfinder.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.maroc.jobfinder.JobOfferAdapter;
+import org.maroc.jobfinder.JobOfferDetailsActivity;
 import org.maroc.jobfinder.R;
 import org.maroc.jobfinder.api.AccessToken;
 import org.maroc.jobfinder.api.JobOffersResponse;
 import org.maroc.jobfinder.api.PoleEmploiApi;
 import org.maroc.jobfinder.models.JobOffer;
+import org.maroc.jobfinder.models.SelectedJobOffer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,24 +34,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements JobOfferAdapter.OnJobOfferClickListener {
 
     private TextInputEditText searchInput;
     private RecyclerView recyclerView;
     private JobOfferAdapter jobOfferAdapter;
     private ImageButton searchButton;
 
-
-
-
     // Ajoutez ces membres à votre classe
-
+    private List<JobOffer> JobOffers;
     private JobOffersResponse jobOffersApiService;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -56,10 +57,10 @@ public class SearchFragment extends Fragment {
         searchInput = view.findViewById(R.id.searchEditText);
         recyclerView = view.findViewById(R.id.resultsRecyclerView);
 
-        jobOfferAdapter = new JobOfferAdapter(new ArrayList<>());
+        JobOffers = new ArrayList<>();
+        jobOfferAdapter = new JobOfferAdapter(JobOffers, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(jobOfferAdapter);
-
          searchButton = view.findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> {
             Log.d("BUTTON_CLICK", "Search button clicked");
@@ -125,5 +126,13 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onJobOfferClick(JobOffer jobOffer) {
+        Intent intent = new Intent(getContext(), JobOfferDetailsActivity.class);
+        intent.putExtra(JobOfferDetailsActivity.EXTRA_JOB_OFFER, jobOffer);
+        startActivity(intent);
+    }
+
 
 }

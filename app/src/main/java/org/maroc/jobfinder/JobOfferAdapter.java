@@ -20,9 +20,11 @@ import java.util.List;
 public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOfferViewHolder> {
 
     private List<JobOffer> jobOffers;
+    private OnJobOfferClickListener onJobOfferClickListener;
 
-    public JobOfferAdapter(List<JobOffer> jobOffers) {
+    public JobOfferAdapter(List<JobOffer> jobOffers, OnJobOfferClickListener onJobOfferClickListener) {
         this.jobOffers = jobOffers;
+        this.onJobOfferClickListener = onJobOfferClickListener;
     }
 
     @NonNull
@@ -55,7 +57,6 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
             constraintSet.connect(R.id.jobTitle, ConstraintSet.END, R.id.companyLogo, ConstraintSet.START, 16); // Ajoutez une marge de 16dp
         }
 
-
         constraintSet.applyTo(constraintLayout);
     }
 
@@ -69,7 +70,7 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
         notifyDataSetChanged();
     }
 
-    public class JobOfferViewHolder extends RecyclerView.ViewHolder {
+    public class JobOfferViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title;
         TextView description;
@@ -94,7 +95,23 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
             title = itemView.findViewById(R.id.jobTitle);
             companyLogo = itemView.findViewById(R.id.companyLogo);
             description = itemView.findViewById(R.id.additionalInfo);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (onJobOfferClickListener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    onJobOfferClickListener.onJobOfferClick(jobOffers.get(position));
+                }
+            }
         }
     }
 
+    public interface OnJobOfferClickListener {
+        void onJobOfferClick(JobOffer jobOffer);
+    }
 }
+
