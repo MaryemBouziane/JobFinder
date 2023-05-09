@@ -71,7 +71,7 @@
             android:id="@+id/valider_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Valider" />
+            android:text="Appliquer" />
 
     </LinearLayout>
 </ScrollView>
