@@ -70,6 +70,7 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
         notifyDataSetChanged();
     }
 
+
     public class JobOfferViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title;
@@ -80,7 +81,7 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
             title.setText(jobOffer.getTitle());
             description.setText(jobOffer.getDescription());
 
-            String imageUrl = jobOffer.getLogoUrl();
+            String imageUrl = jobOffer.getLogoURL();
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 Picasso.get()
                         .load(imageUrl)

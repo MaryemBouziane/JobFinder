@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/delete_favorite"
+        android:title="Supprimer des favoris" />
+    <item
+        android:id="@+id/copy_link"
+        android:title="Copier le lien" />
+</menu>

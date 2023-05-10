@@ -20,7 +20,8 @@
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/company_logo"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/jobTitle"

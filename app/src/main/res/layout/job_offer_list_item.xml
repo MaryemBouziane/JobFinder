@@ -3,19 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="org.maroc.jobfinder.fragments.FavoritesFragment">
+    android:layout_height="wrap_content"
+    android:padding="8dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favorites_recycler_view"
+    <TextView
+        android:id="@+id/job_offer_row"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scrollbars="vertical"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/job_offer_list_item" />
+        tools:text="Job Offer Title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

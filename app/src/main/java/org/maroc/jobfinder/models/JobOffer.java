@@ -4,19 +4,37 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.moshi.Json;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.squareup.moshi.Json;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
+@Entity(tableName = "JobOffer")
 public class JobOffer implements Serializable {
+
+    @PrimaryKey
+    @NonNull
     @Json(name = "id")
     private String id;
+    @ColumnInfo(name = "title")
     @Json(name = "intitule")
     private String title;
 
+    @ColumnInfo(name = "description")
     @Json(name = "dateCreation")
     private String description;
+
+    @ColumnInfo(name = "logo_url")
     @Json(name = "entreprise.logo")
     private String logoURL;
+
+    public JobOffer() {
+        // Empty constructor required by Room
+    }
 
     public JobOffer(String id, String title, String company, String location, String description,String logoURL) {
         this.id = id;
@@ -50,11 +68,11 @@ public class JobOffer implements Serializable {
     }
 
 
-    public void setLogoUrl(String logoUrl) {
+    public void setLogoURL(String logoURL) {
         this.logoURL = logoURL;
     }
 
-    public String getLogoUrl() {
+    public String getLogoURL() {
         return logoURL;
     }
 }
