@@ -1,5 +1,6 @@
 package org.maroc.jobfinder;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.maroc.jobfinder.database.JobFinderRepository;
 import org.maroc.jobfinder.models.JobOffer;
 
 import java.util.List;
 
 public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOfferViewHolder> {
-
+    private JobFinderRepository repository;
     private List<JobOffer> jobOffers;
     private OnJobOfferClickListener onJobOfferClickListener;
 
@@ -27,6 +29,12 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
         this.onJobOfferClickListener = onJobOfferClickListener;
     }
 
+
+    public JobOfferAdapter(List<JobOffer> jobOffers, OnJobOfferClickListener onJobOfferClickListener, JobFinderRepository repository) {
+        this.jobOffers = jobOffers;
+        this.onJobOfferClickListener = onJobOfferClickListener;
+        this.repository = repository;
+    }
     @NonNull
     @Override
     public JobOfferViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -70,7 +78,8 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
         notifyDataSetChanged();
     }
 
-    public class JobOfferViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    public class JobOfferViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
         TextView title;
         TextView description;
@@ -78,9 +87,9 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
 
         public void bind(JobOffer jobOffer) {
             title.setText(jobOffer.getTitle());
-            description.setText(jobOffer.getDescription());
+            description.setText(jobOffer.getDateCreation());
 
-            String imageUrl = jobOffer.getLogoUrl();
+            String imageUrl = jobOffer.getLogoURL();
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 Picasso.get()
                         .load(imageUrl)
@@ -97,8 +106,23 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
             description = itemView.findViewById(R.id.additionalInfo);
 
             itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this); // Enregistrement pour le menu contextuel
         }
 
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(this.getAdapterPosition(), 121, 0, "Ajouter aux favoris");
+            menu.getItem(0).setOnMenuItemClickListener(item -> {
+                if (onJobOfferClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onJobOfferClickListener.onAddToFavoritesClick(jobOffers.get(position));
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
         @Override
         public void onClick(View view) {
             if (onJobOfferClickListener != null) {
@@ -112,6 +136,7 @@ public class JobOfferAdapter extends RecyclerView.Adapter<JobOfferAdapter.JobOff
 
     public interface OnJobOfferClickListener {
         void onJobOfferClick(JobOffer jobOffer);
+        void onAddToFavoritesClick(JobOffer jobOffer);
     }
 }
 

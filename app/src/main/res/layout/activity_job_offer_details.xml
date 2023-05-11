@@ -24,7 +24,7 @@
             android:layout_gravity="bottom|start"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            app:backgroundTint="@color/blue"
+            app:backgroundTint="@color/border"
             app:tint="@color/white"
             app:srcCompat="@drawable/ic_back" />
 
@@ -74,6 +74,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 tools:text="Titre de l'offre" />
 
             <TextView
@@ -83,16 +84,18 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="4dp"
                 android:textSize="16sp"
+
                 tools:text="Nom de l'entreprise" />
 
             <TextView
-                android:id="@+id/job_offer_details_location"
+                android:id="@+id/job_offer_details_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:textColor="@color/border"
                 android:layout_marginTop="4dp"
                 android:textSize="14sp"
-                tools:text="Lieu" />
+                tools:text="Date" />
 
             <TextView
                 android:id="@+id/job_offer_details_description_label"
@@ -100,6 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Description:"
+                android:textColor="@color/purple_200"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -124,6 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Exigences:"
+                android:textColor="@color/purple_200"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -142,21 +147,22 @@
                 android:background="@android:color/darker_gray" />
 
             <TextView
-                android:id="@+id/job_offer_details_how_to_apply_label"
+                android:id="@+id/job_offer_details_typeDeContrat_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Comment postuler:"
+                android:text="Type de contrat:"
+                android:textColor="@color/purple_200"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/job_offer_details_how_to_apply"
+                android:id="@+id/job_offer_details_typeDeContrat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textSize="14sp"
-                tools:text="Instructions pour postuler à l'offre d'emploi" />
+                tools:text="Type de contrat:" />
 
         </LinearLayout>
     </ScrollView>
