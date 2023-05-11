@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -23,6 +24,8 @@ import org.maroc.jobfinder.R;
 import org.maroc.jobfinder.api.AccessToken;
 import org.maroc.jobfinder.api.JobOffersResponse;
 import org.maroc.jobfinder.api.PoleEmploiApi;
+import org.maroc.jobfinder.database.JobFinderDatabase;
+import org.maroc.jobfinder.database.JobFinderRepository;
 import org.maroc.jobfinder.models.JobOffer;
 import org.maroc.jobfinder.models.SelectedJobOffer;
 
@@ -45,15 +48,23 @@ public class SearchFragment extends Fragment implements JobOfferAdapter.OnJobOff
     private List<JobOffer> JobOffers;
     private JobOffersResponse jobOffersApiService;
 
+    private JobFinderDatabase db;
+
+    // Dans la méthode onCreate:
+    private JobFinderRepository repository;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search, container, false);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        super.onViewCreated(view, savedInstanceState);
+        // Ici, nous initialisons directement la variable d'instance 'repository'
+        repository = new JobFinderRepository(getActivity().getApplication());
+        jobOfferAdapter = new JobOfferAdapter(JobOffers, this, repository);
         searchInput = view.findViewById(R.id.searchEditText);
         recyclerView = view.findViewById(R.id.resultsRecyclerView);
 
@@ -61,7 +72,7 @@ public class SearchFragment extends Fragment implements JobOfferAdapter.OnJobOff
         jobOfferAdapter = new JobOfferAdapter(JobOffers, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(jobOfferAdapter);
-         searchButton = view.findViewById(R.id.searchButton);
+        searchButton = view.findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> {
             Log.d("BUTTON_CLICK", "Search button clicked");
             Toast.makeText(getContext(), "Search button clicked", Toast.LENGTH_SHORT).show();
@@ -71,6 +82,11 @@ public class SearchFragment extends Fragment implements JobOfferAdapter.OnJobOff
 
     }
 
+    @Override
+    public void onAddToFavoritesClick(JobOffer jobOffer) {
+        repository.insertJobOffer(jobOffer);
+        Toast.makeText(getContext(), "Offre ajoutée aux favoris!", Toast.LENGTH_LONG).show();
+    }
     private void performSearch(String query) {
         if (query.isEmpty()) {
             Toast.makeText(getContext(), "Veuillez entrer un terme de recherche.", Toast.LENGTH_SHORT).show();

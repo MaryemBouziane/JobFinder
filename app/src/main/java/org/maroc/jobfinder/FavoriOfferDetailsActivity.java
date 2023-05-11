@@ -27,10 +27,11 @@ public class FavoriOfferDetailsActivity extends AppCompatActivity {
     private ImageView jobOfferLogo;
     private TextView jobOfferTitle;
     private TextView companyName;
-    private TextView location;
+    private TextView date;
     private TextView description;
     private TextView requirements;
-    private TextView howToApply;
+    private TextView typeContrat;
+
 
     private JobFinderDatabase db;
     private boolean isFavorite;
@@ -45,10 +46,14 @@ public class FavoriOfferDetailsActivity extends AppCompatActivity {
         repository = new JobFinderRepository(getApplication());
 
         // Initialiser les vues
+        // Initialize views
         jobOfferLogo = findViewById(R.id.job_offer_details_logo);
         jobOfferTitle = findViewById(R.id.job_offer_details_title);
         companyName = findViewById(R.id.job_offer_details_company_name);
-
+        date= findViewById(R.id.job_offer_details_date);
+        description = findViewById(R.id.job_offer_details_description);
+        requirements = findViewById(R.id.job_offer_details_requirements);
+        typeContrat = findViewById(R.id.job_offer_details_typeDeContrat);
         // Récupérez l'identifiant du JobOffer de l'intent
         String jobOfferId = getIntent().getStringExtra("JOB_OFFER_ID");
 
@@ -129,8 +134,11 @@ public class FavoriOfferDetailsActivity extends AppCompatActivity {
 
         // Set the text for the other views
         jobOfferTitle.setText(jobOffer.getTitle());
-        companyName.setText(jobOffer.getDescription());
-        // Ajoutez plus de détails et d'informations ici
+        companyName.setText(jobOffer.getEntrepriseNom());
+        date.setText(jobOffer.getDateCreation());
+        description.setText(jobOffer.getDescription());
+        requirements.setText(jobOffer.getExperienceExige());
+        typeContrat.setText(jobOffer.getTypeContrat());
     }
 
     @Override

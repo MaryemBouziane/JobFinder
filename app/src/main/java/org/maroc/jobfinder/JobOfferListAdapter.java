@@ -71,16 +71,24 @@ public class JobOfferListAdapter
 
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
-        TextView item;
-
+        TextView titre;
+        TextView entrepriseNom;
+        TextView typecontra;
+        TextView nbrePlace;
         ViewHolder(View itemView) {
             super(itemView);
-            item = itemView.findViewById(R.id.job_offer_row);
+            titre = itemView.findViewById(R.id.job_offer_row);
+            entrepriseNom = itemView.findViewById(R.id.entrepriseNom);
+            typecontra = itemView.findViewById(R.id.typeContrat);
+            nbrePlace = itemView.findViewById(R.id.nombrePostes);
             itemView.setOnCreateContextMenuListener(this);
         }
 
         public void bind(JobOffer jobOffer) {
-            item.setText(jobOffer.getTitle());
+            titre.setText(jobOffer.getTitle());
+            entrepriseNom.setText(jobOffer.getEntrepriseNom());
+            typecontra.setText("type de contrat:"+jobOffer.getTypeContrat());
+            nbrePlace.setText("place diponible:"+Integer.toString(jobOffer.getNombrePostes()));
             selectedJobOffer = jobOffer;
         }
 

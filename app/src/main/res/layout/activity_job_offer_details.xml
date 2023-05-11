@@ -86,13 +86,13 @@
                 tools:text="Nom de l'entreprise" />
 
             <TextView
-                android:id="@+id/job_offer_details_location"
+                android:id="@+id/job_offer_details_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="4dp"
                 android:textSize="14sp"
-                tools:text="Lieu" />
+                tools:text="Date" />
 
             <TextView
                 android:id="@+id/job_offer_details_description_label"
@@ -142,21 +142,21 @@
                 android:background="@android:color/darker_gray" />
 
             <TextView
-                android:id="@+id/job_offer_details_how_to_apply_label"
+                android:id="@+id/job_offer_details_typeDeContrat_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Comment postuler:"
+                android:text="Type de contrat:"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/job_offer_details_how_to_apply"
+                android:id="@+id/job_offer_details_typeDeContrat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textSize="14sp"
-                tools:text="Instructions pour postuler à l'offre d'emploi" />
+                tools:text="Type de contrat:" />
 
         </LinearLayout>
     </ScrollView>

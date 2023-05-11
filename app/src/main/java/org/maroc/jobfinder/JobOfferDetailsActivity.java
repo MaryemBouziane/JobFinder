@@ -27,10 +27,10 @@ public class JobOfferDetailsActivity extends AppCompatActivity {
     private ImageView jobOfferLogo;
     private TextView jobOfferTitle;
     private TextView companyName;
-    private TextView location;
+    private TextView date;
     private TextView description;
     private TextView requirements;
-    private TextView howToApply;
+    private TextView typeContrat;
 
     private JobFinderDatabase db;
 
@@ -46,7 +46,10 @@ public class JobOfferDetailsActivity extends AppCompatActivity {
         jobOfferLogo = findViewById(R.id.job_offer_details_logo);
         jobOfferTitle = findViewById(R.id.job_offer_details_title);
         companyName = findViewById(R.id.job_offer_details_company_name);
-
+        date= findViewById(R.id.job_offer_details_date);
+        description = findViewById(R.id.job_offer_details_description);
+        requirements = findViewById(R.id.job_offer_details_requirements);
+        typeContrat = findViewById(R.id.job_offer_details_typeDeContrat);
         // Récupérez l'objet JobOffer de l'intent
         JobOffer jobOffer = (JobOffer) getIntent().getSerializableExtra(EXTRA_JOB_OFFER);
         if (jobOffer != null) {
@@ -91,7 +94,11 @@ public class JobOfferDetailsActivity extends AppCompatActivity {
 
         // Set the text for the other views
         jobOfferTitle.setText(jobOffer.getTitle());
-        companyName.setText(jobOffer.getDescription());
+        companyName.setText(jobOffer.getEntrepriseNom());
+        date.setText(jobOffer.getDateCreation());
+        description.setText(jobOffer.getDescription());
+        requirements.setText(jobOffer.getExperienceExige());
+        typeContrat.setText(jobOffer.getTypeContrat());
 //je dois ajouter + de details +infos
     }
     @Override

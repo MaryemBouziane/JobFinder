@@ -1,8 +1,10 @@
 package org.maroc.jobfinder.fragments;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -11,6 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +54,109 @@ public class FavoritesFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
         observerSetup();
         recyclerSetup();
+        Button filterButton = view.findViewById(R.id.filter_button);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), v);
+                MenuInflater inflater = popupMenu.getMenuInflater();
+                inflater.inflate(R.menu.filter_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.contract_type:
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("Select contract type");
+
+                                final EditText input = new EditText(getContext());
+                                builder.setView(input);
+
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String selectedContractType = input.getText().toString();
+                                        viewModel.findJobOffersByContractType(selectedContractType).observe(getViewLifecycleOwner(), new Observer<List<JobOffer>>() {
+                                            @Override
+                                            public void onChanged(List<JobOffer> jobOffers) {
+                                                // Update your RecyclerView with the filtered job offers
+                                                adapter.setJobOfferList(jobOffers);
+                                            }
+                                        });
+                                    }
+                                });
+                                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                                builder.show();
+                                return true;
+                            case R.id.min_postes:
+                                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                                builder2.setTitle("Select contract type");
+
+                                final EditText input2 = new EditText(getContext());
+                                builder2.setView(input2);
+
+                                builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String selectedminposte = input2.getText().toString();
+                                        viewModel.findJobOffersWithMinPostes(Integer.parseInt(selectedminposte)).observe(getViewLifecycleOwner(), new Observer<List<JobOffer>>() {
+                                            @Override
+                                            public void onChanged(List<JobOffer> jobOffers) {
+                                                // Update your RecyclerView with the filtered job offers
+                                                adapter.setJobOfferList(jobOffers);
+                                            }
+                                        });
+                                    }
+                                });
+                                builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                                builder2.show();
+                                return true;
+                            case R.id.lacking_candidates:
+                                AlertDialog.Builder builder3 = new AlertDialog.Builder(getContext());
+                                builder3.setTitle("Select contract type");
+                                builder3.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        viewModel.findJobOffersLackingCandidates().observe(getViewLifecycleOwner(), new Observer<List<JobOffer>>() {
+                                            @Override
+                                            public void onChanged(List<JobOffer> jobOffers) {
+                                                // Update your RecyclerView with the filtered job offers
+                                                adapter.setJobOfferList(jobOffers);
+                                            }
+                                        });
+                                    }
+                                });
+                                builder3.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                                builder3.show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
     }
 
     private void observerSetup() {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/contract_type"
+        android:title="Filter by contract type" />
+    <item
+        android:id="@+id/min_postes"
+        android:title="Filter by minimum postes" />
+    <item
+        android:id="@+id/lacking_candidates"
+        android:title="Filter by offers lacking candidates" />
+</menu>

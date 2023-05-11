@@ -25,9 +25,9 @@ public class JobOffer implements Serializable {
     @Json(name = "intitule")
     private String title;
 
-    @ColumnInfo(name = "description")
+    @ColumnInfo(name = "dateCreation")
     @Json(name = "dateCreation")
-    private String description;
+    private String dateCreation;
 
     @ColumnInfo(name = "logo_url")
     @Json(name = "entreprise.logo")
@@ -49,19 +49,36 @@ public class JobOffer implements Serializable {
     @Json(name = "offresManqueCandidats")
     private boolean offresManqueCandidats;
 
+    @ColumnInfo(name = "entreprise_nom")
+    @Json(name = "entreprise.nom")
+    private String entrepriseNom;
+
+    @ColumnInfo(name = "experienceExige")
+    @Json(name = "experienceExige")
+    private String experienceExige;
+
+
+    @ColumnInfo(name = "description")
+    @Json(name = "description")
+    private String description;
+
     public JobOffer() {
         // Empty constructor required by Room
     }
 
-    public JobOffer(String id, String title, String company, String location, String description,String logoURL,String offreURL,String typeContrat,Integer nombrePostes, boolean offresManqueCandidats) {
+    public JobOffer(String id, String title, String experienceExige, String description, String dateCreation,String logoURL,String offreURL,String typeContrat,Integer nombrePostes, boolean offresManqueCandidats,String  entrepriseNom) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.experienceExige=experienceExige;
+        this.dateCreation = dateCreation;
         this.logoURL=logoURL;
         this.offreURL=offreURL;
         this.typeContrat=typeContrat;
         this.nombrePostes=nombrePostes;
         this.offresManqueCandidats=offresManqueCandidats;
+        this.entrepriseNom=entrepriseNom;
+
     }
 
     public String getId() {
@@ -126,5 +143,27 @@ public class JobOffer implements Serializable {
 
     public void setOffresManqueCandidats(boolean offresManqueCandidats) {
         this.offresManqueCandidats = offresManqueCandidats;
+    }
+    public String getEntrepriseNom() {
+        return entrepriseNom;
+    }
+
+    public void setEntrepriseNom(String entrepriseNom) {
+        this.entrepriseNom = entrepriseNom;
+    }
+    public String getExperienceExige() {
+        return experienceExige;
+    }
+
+    public void setExperienceExige(String experienceExige) {
+        this.experienceExige = experienceExige;
+    }
+
+    public String getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(String dateCreation) {
+        this.dateCreation = dateCreation;
     }
 }
