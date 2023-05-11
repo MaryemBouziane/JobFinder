@@ -20,9 +20,9 @@ import org.maroc.jobfinder.models.JobOffer;
 
 import java.util.List;
 
-public class JobOfferDetailsActivity extends AppCompatActivity {
+public class FavoriOfferDetailsActivity extends AppCompatActivity {
     public static final String EXTRA_JOB_OFFER = "extra_job_offer";
-
+    private JobOffer jobOffer;
     private TextView titleTextView;
     private ImageView jobOfferLogo;
     private TextView jobOfferTitle;
@@ -33,45 +33,82 @@ public class JobOfferDetailsActivity extends AppCompatActivity {
     private TextView howToApply;
 
     private JobFinderDatabase db;
+    private boolean isFavorite;
+    private FloatingActionButton addToFavoritesButton;
 
-    // Dans la méthode onCreate:
     private JobFinderRepository repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_offer_details);
         repository = new JobFinderRepository(getApplication());
 
-        // Initialize views
+        // Initialiser les vues
         jobOfferLogo = findViewById(R.id.job_offer_details_logo);
         jobOfferTitle = findViewById(R.id.job_offer_details_title);
         companyName = findViewById(R.id.job_offer_details_company_name);
 
-        // Récupérez l'objet JobOffer de l'intent
-        JobOffer jobOffer = (JobOffer) getIntent().getSerializableExtra(EXTRA_JOB_OFFER);
-        if (jobOffer != null) {
-            displayJobOfferDetails(jobOffer);
-        }
-        //pour revenir à la page de laa recherche:
-        FloatingActionButton backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
+        // Récupérez l'identifiant du JobOffer de l'intent
+        String jobOfferId = getIntent().getStringExtra("JOB_OFFER_ID");
+
+        // Utilisez l'identifiant pour obtenir l'objet JobOffer de votre base de données
+        repository.getJobOfferById(jobOfferId).observe(this, foundJobOffer -> {
+            if (foundJobOffer != null) {
+                this.jobOffer = foundJobOffer;  // Initialisez la variable d'instance jobOffer
+                displayJobOfferDetails(foundJobOffer);
             }
         });
-        FloatingActionButton addToFavoritesButton = findViewById(R.id.add_to_favorites_button);
+
+
+        // pour revenir à la page de la recherche:
+        FloatingActionButton backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(view -> onBackPressed());
+
+        addToFavoritesButton = findViewById(R.id.add_to_favorites_button);
         addToFavoritesButton.setOnClickListener(v -> {
-            addToFavorites(jobOffer);
-            fetchAndPrintFavoriteJobOffers();
-            Toast.makeText(this, "Job offer added to favorites", Toast.LENGTH_SHORT).show();
+            if (jobOffer == null) {
+                Toast.makeText(this, "Job offer not loaded yet", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!isFavorite) {
+                addToFavorites(jobOffer);
+                fetchAndPrintFavoriteJobOffers();
+                Toast.makeText(this, "Job offer added to favorites", Toast.LENGTH_SHORT).show();
+            } else {
+                removeFromFavorites(jobOffer);
+                Toast.makeText(this, "Job offer removed from favorites", Toast.LENGTH_SHORT).show();
+            }
+            isFavorite = !isFavorite;
+            updateFavoritesButton();
         });
 
+        // Check if job offer is already a favorite
+        repository.getJobOfferById(jobOfferId).observe(this, foundJobOffer -> {
+            isFavorite = foundJobOffer != null;
+            updateFavoritesButton();
+        });
+
+    }
+
+    private void updateFavoritesButton() {
+        // Change the button icon or text based on isFavorite
+        if (isFavorite) {
+            addToFavoritesButton.setImageResource(R.drawable.ic_delete);  // icon for favorite
+        } else {
+            addToFavoritesButton.setImageResource(R.drawable.ic_favorite_border);  // icon for not favorite
+        }
     }
 
     private void addToFavorites(JobOffer jobOffer) {
         repository.insertJobOffer(jobOffer);
     }
+
+    private void removeFromFavorites(JobOffer jobOffer) {
+        repository.deleteJobOffer(jobOffer.getId());
+    }
+
     private void fetchAndPrintFavoriteJobOffers() {
         repository.getAllJobOffers().observe(this, new Observer<List<JobOffer>>() {
             @Override
@@ -82,6 +119,7 @@ public class JobOfferDetailsActivity extends AppCompatActivity {
             }
         });
     }
+
     private void displayJobOfferDetails(JobOffer jobOffer) {
         // Load the company logo using Picasso
         Picasso.get()
@@ -92,8 +130,9 @@ public class JobOfferDetailsActivity extends AppCompatActivity {
         // Set the text for the other views
         jobOfferTitle.setText(jobOffer.getTitle());
         companyName.setText(jobOffer.getDescription());
-//je dois ajouter + de details +infos
+        // Ajoutez plus de détails et d'informations ici
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

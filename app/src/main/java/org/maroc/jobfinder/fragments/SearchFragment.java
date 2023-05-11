@@ -127,6 +127,7 @@ public class SearchFragment extends Fragment implements JobOfferAdapter.OnJobOff
         });
     }
 
+
     @Override
     public void onJobOfferClick(JobOffer jobOffer) {
         Intent intent = new Intent(getContext(), JobOfferDetailsActivity.class);

@@ -1,5 +1,6 @@
 package org.maroc.jobfinder;
 import android.content.Context;
+import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -49,8 +50,25 @@ public class JobOfferListAdapter
     @NonNull
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(jobOfferList.get(position));
+        JobOffer jobOffer = jobOfferList.get(position);
+        holder.bind(jobOffer);
+
+        // Ajoutez un OnClickListener à l'élément
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Créez un Intent pour lancer l'activité de détails de l'offre d'emploi
+                Intent intent = new Intent(v.getContext(), FavoriOfferDetailsActivity.class);
+
+                // Ajoutez l'ID de l'offre d'emploi comme extra à l'Intent
+                intent.putExtra("JOB_OFFER_ID", jobOffer.getId());
+
+                // Lancez l'activité
+                v.getContext().startActivity(intent);
+            }
+        });
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         TextView item;

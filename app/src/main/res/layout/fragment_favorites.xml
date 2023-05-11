@@ -17,5 +17,17 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/job_offer_list_item" />
 
+    <Button
+        android:id="@+id/filter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="filtrer"
+        app:layout_constraintBottom_toBottomOf="@+id/favorites_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/favorites_recycler_view"
+        app:layout_constraintVertical_bias="0.947" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

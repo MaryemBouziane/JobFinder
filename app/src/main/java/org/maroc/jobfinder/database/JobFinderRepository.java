@@ -50,12 +50,26 @@ public class JobFinderRepository {
             e.printStackTrace();
         }
     }
-
+    public LiveData<JobOffer> getJobOfferById(String id) {
+        return jobOfferDao.findJobOfferById(id);
+    }
     public LiveData<List<JobOffer>> getAllJobOffers() {
         return allJobOffers;
     }
 
+
     public MutableLiveData<List<JobOffer>> getSearchResults() {
         return searchResults;
+    }
+    public LiveData<List<JobOffer>> findJobOffersByContractType(String typeContrat) {
+        return jobOfferDao.findJobOffersByContractType(typeContrat);
+    }
+
+    public LiveData<List<JobOffer>> findJobOffersWithMinPostes(int minPostes) {
+        return jobOfferDao.findJobOffersWithMinPostes(minPostes);
+    }
+
+    public LiveData<List<JobOffer>> findJobOffersLackingCandidates() {
+        return jobOfferDao.findJobOffersLackingCandidates();
     }
 }

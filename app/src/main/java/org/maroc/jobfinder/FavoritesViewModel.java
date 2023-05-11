@@ -33,7 +33,17 @@ public class FavoritesViewModel extends AndroidViewModel {
     public void deleteJobOffer(String id) {
         repository.deleteJobOffer(id);
     }
+    public LiveData<List<JobOffer>> findJobOffersByContractType(String typeContrat) {
+        return repository.findJobOffersByContractType(typeContrat);
+    }
 
+    public LiveData<List<JobOffer>> findJobOffersWithMinPostes(int minPostes) {
+        return repository.findJobOffersWithMinPostes(minPostes);
+    }
+
+    public LiveData<List<JobOffer>> findJobOffersLackingCandidates() {
+        return repository.findJobOffersLackingCandidates();
+    }
     public void findJobOffer(String id) {
         repository.findJobOffer(id);
     }

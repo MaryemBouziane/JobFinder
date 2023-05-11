@@ -22,4 +22,17 @@ public interface JobOfferDao {
 
     @Query("SELECT * FROM JobOffer")
     LiveData<List<JobOffer>> getAllJobOffers();
+
+    @Query("SELECT * FROM JobOffer WHERE id = :id LIMIT 1")
+    LiveData<JobOffer> findJobOfferById(String id);
+
+    @Query("SELECT * FROM JobOffer WHERE typeContrat = :typeContrat")
+    LiveData<List<JobOffer>> findJobOffersByContractType(String typeContrat);
+
+    @Query("SELECT * FROM JobOffer WHERE nombrePostes >= :minPostes")
+    LiveData<List<JobOffer>> findJobOffersWithMinPostes(int minPostes);
+
+    @Query("SELECT * FROM JobOffer WHERE offresManqueCandidats = 1")
+    LiveData<List<JobOffer>> findJobOffersLackingCandidates();
+
 }
