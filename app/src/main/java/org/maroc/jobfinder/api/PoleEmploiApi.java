@@ -1,4 +1,6 @@
 package org.maroc.jobfinder.api;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -24,8 +26,8 @@ public class PoleEmploiApi {
         return service.getAccessToken(GRANT_TYPE, CLIENT_ID, CLIENT_SECRET, SCOPE);
     }
 
-    public Call<JobOffersResponse> searchJobOffers(String accessToken, String keywords, String location, String range) {
+    public Call<JobOffersResponse> searchJobOffers(String accessToken, String keywords, Map<String, String> filters) {
         String authorization = "Bearer " + accessToken;
-        return service.searchJobOffers(authorization, keywords, location, range);
+        return service.searchJobOffers(authorization, keywords, filters);
     }
 }

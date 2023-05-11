@@ -1,7 +1,9 @@
 package org.maroc.jobfinder.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,6 +26,7 @@ import org.maroc.jobfinder.R;
 import org.maroc.jobfinder.api.AccessToken;
 import org.maroc.jobfinder.api.JobOffersResponse;
 import org.maroc.jobfinder.api.PoleEmploiApi;
+import org.maroc.jobfinder.api.QueryMapBuilder;
 import org.maroc.jobfinder.database.JobFinderDatabase;
 import org.maroc.jobfinder.database.JobFinderRepository;
 import org.maroc.jobfinder.models.JobOffer;
@@ -31,7 +34,9 @@ import org.maroc.jobfinder.models.SelectedJobOffer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,7 +106,10 @@ public class SearchFragment extends Fragment implements JobOfferAdapter.OnJobOff
                     String accessToken = response.body().getAccessToken();
 
                     // Rechercher des offres d'emploi avec l'access token
-                    api.searchJobOffers(accessToken, query, "75", "0-9").enqueue(new Callback<JobOffersResponse>() {
+
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("recherche", getContext().MODE_PRIVATE);
+                    Map<String, String> filters = QueryMapBuilder.createQueryMap(sharedPreferences);
+                    api.searchJobOffers(accessToken, query, filters).enqueue(new Callback<JobOffersResponse>() {
                         @Override
                         public void onResponse(Call<JobOffersResponse> call, Response<JobOffersResponse> response) {
                             if (response.isSuccessful()) {
