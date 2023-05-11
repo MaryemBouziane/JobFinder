@@ -30,6 +30,7 @@
             android:layout_marginTop="8dp"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/purple_200"
             tools:text="Titre de l'offre" />
 
         <TextView
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="4dp"
+            android:textColor="@color/border"
             android:textSize="14sp"
             tools:text="Nom de l'entreprise" />
 

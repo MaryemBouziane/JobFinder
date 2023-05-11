@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/purple_200"
+        android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Job Offer Title" />
@@ -24,7 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/border"
+        android:textStyle="bold"
+        android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/job_offer_row"
         tools:text="Job Offer entrepriseNom" />
@@ -34,7 +37,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@color/text"
+        android:textColor="@color/border"
+        android:textStyle="bold"
+        android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entrepriseNom"
         tools:text="Job Offer typeContrat" />
@@ -44,7 +49,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@color/text"
+        android:textColor="@color/border"
+        android:textStyle="bold"
+        android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeContrat"
         tools:text="Job Offer nombrePostes" />

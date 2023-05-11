@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/blue"
+            android:background="@color/purple_200"
             app:popupTheme="@style/Theme.JobFinder.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+   >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -29,7 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Job Title"
-            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textColor="@color/purple_200"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Additional Info"
-            android:textColor="@android:color/darker_gray"
+            android:textStyle="bold"
+            android:textColor="@color/border"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/jobTitle"

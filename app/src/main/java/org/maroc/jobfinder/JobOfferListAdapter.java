@@ -87,8 +87,8 @@ public class JobOfferListAdapter
         public void bind(JobOffer jobOffer) {
             titre.setText(jobOffer.getTitle());
             entrepriseNom.setText(jobOffer.getEntrepriseNom());
-            typecontra.setText("type de contrat:"+jobOffer.getTypeContrat());
-            nbrePlace.setText("place diponible:"+Integer.toString(jobOffer.getNombrePostes()));
+            typecontra.setText("Type de contrat : "+jobOffer.getTypeContrat());
+            nbrePlace.setText("Place diponible : "+Integer.toString(jobOffer.getNombrePostes()));
             selectedJobOffer = jobOffer;
         }
 

@@ -11,23 +11,27 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/filter_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/job_offer_list_item" />
+        tools:listitem="@layout/job_offer_list_item"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp" />
 
     <Button
         android:id="@+id/filter_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="filtrer"
-        app:layout_constraintBottom_toBottomOf="@+id/favorites_recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/favorites_recycler_view"
-        app:layout_constraintVertical_bias="0.947" />
+        app:layout_constraintTop_toBottomOf="@+id/favorites_recycler_view"
+        app:layout_constraintVertical_bias="0.947"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

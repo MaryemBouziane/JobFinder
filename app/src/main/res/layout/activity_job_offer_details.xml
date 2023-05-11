@@ -24,7 +24,7 @@
             android:layout_gravity="bottom|start"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            app:backgroundTint="@color/blue"
+            app:backgroundTint="@color/border"
             app:tint="@color/white"
             app:srcCompat="@drawable/ic_back" />
 
@@ -74,6 +74,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 tools:text="Titre de l'offre" />
 
             <TextView
@@ -83,6 +84,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="4dp"
                 android:textSize="16sp"
+
                 tools:text="Nom de l'entreprise" />
 
             <TextView
@@ -90,6 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:textColor="@color/border"
                 android:layout_marginTop="4dp"
                 android:textSize="14sp"
                 tools:text="Date" />
@@ -100,6 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Description:"
+                android:textColor="@color/purple_200"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -124,6 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Exigences:"
+                android:textColor="@color/purple_200"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -147,6 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Type de contrat:"
+                android:textColor="@color/purple_200"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
