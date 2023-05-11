@@ -20,6 +20,7 @@ public class JobOffer implements Serializable {
     @NonNull
     @Json(name = "id")
     private String id;
+
     @ColumnInfo(name = "title")
     @Json(name = "intitule")
     private String title;
@@ -32,15 +33,20 @@ public class JobOffer implements Serializable {
     @Json(name = "entreprise.logo")
     private String logoURL;
 
+    @ColumnInfo(name = "offre_url")
+    @Json(name = "origineOffre.urlOrigine")
+    private String offreURL;
+
     public JobOffer() {
         // Empty constructor required by Room
     }
 
-    public JobOffer(String id, String title, String company, String location, String description,String logoURL) {
+    public JobOffer(String id, String title, String company, String location, String description,String logoURL,String offreURL) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.logoURL=logoURL;
+        this.offreURL=offreURL;
     }
 
     public String getId() {
@@ -74,5 +80,13 @@ public class JobOffer implements Serializable {
 
     public String getLogoURL() {
         return logoURL;
+    }
+
+    public void setOffreURL(String offreURL) {
+        this.offreURL = offreURL;
+    }
+
+    public String getOffreURL() {
+        return offreURL;
     }
 }

@@ -1,8 +1,8 @@
 package org.maroc.jobfinder;
-
 import android.content.Context;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,6 +20,7 @@ public class JobOfferListAdapter
         extends RecyclerView.Adapter<JobOfferListAdapter.ViewHolder> {
     private int jobOfferItemLayout;
     private List<JobOffer> jobOfferList;
+    private JobOffer selectedJobOffer;
 
     public JobOfferListAdapter(int layoutId) {
         jobOfferItemLayout = layoutId;
@@ -28,6 +29,10 @@ public class JobOfferListAdapter
     public void setJobOfferList(List<JobOffer> jobOffers) {
         jobOfferList = jobOffers;
         notifyDataSetChanged();
+    }
+
+    public JobOffer getSelectedJobOffer() {
+        return selectedJobOffer;
     }
 
     @Override
@@ -43,17 +48,28 @@ public class JobOfferListAdapter
 
     @NonNull
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int listPosition) {
-        TextView item = holder.item;
-        item.setText(jobOfferList.get(listPosition).getTitle());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.bind(jobOfferList.get(position));
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         TextView item;
 
         ViewHolder(View itemView) {
             super(itemView);
             item = itemView.findViewById(R.id.job_offer_row);
+            itemView.setOnCreateContextMenuListener(this);
+        }
+
+        public void bind(JobOffer jobOffer) {
+            item.setText(jobOffer.getTitle());
+            selectedJobOffer = jobOffer;
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            MenuInflater inflater = new MenuInflater(v.getContext());
+            inflater.inflate(R.menu.context_menu, menu);
         }
     }
 }
