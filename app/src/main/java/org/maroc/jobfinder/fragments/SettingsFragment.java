@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -20,7 +21,11 @@ public class SettingsFragment extends Fragment {
     private EditText mTypeContratEditText;
     private EditText mNiveauFormationEditText;
     private EditText mSecteurActiviteEditText;
+
+    private EditText mMaxResultsEditText;
     private Button mValiderButton;
+
+
 
     public SettingsFragment() {
         // Constructeur vide requis
@@ -35,25 +40,29 @@ public class SettingsFragment extends Fragment {
         mTypeContratEditText = view.findViewById(R.id.type_contrat_edittext);
         mNiveauFormationEditText = view.findViewById(R.id.niveau_formation_edittext);
         mSecteurActiviteEditText = view.findViewById(R.id.secteur_activite_edittext);
+        mMaxResultsEditText = view.findViewById(R.id.max_results_edittext);
         mValiderButton = view.findViewById(R.id.valider_button);
         mValiderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Récupérer les valeurs entrées par l'utilisateur
                 String commune = mCommuneEditText.getText().toString();
                 String radius = mRadiusEditText.getText().toString();
                 String typeContrat = mTypeContratEditText.getText().toString();
                 String niveauFormation = mNiveauFormationEditText.getText().toString();
                 String secteurActivite = mSecteurActiviteEditText.getText().toString();
+                String maxResults = mMaxResultsEditText.getText().toString();
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("recherche", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("commune", commune);
-                editor.putString("radius", radius);
+                editor.putString("distance", radius);
                 editor.putString("typeContrat", typeContrat);
                 editor.putString("niveauFormation", niveauFormation);
                 editor.putString("secteurActivite", secteurActivite);
+                editor.putString("maxResults", maxResults);
                 editor.apply();
+
+                Toast.makeText( getContext(),"Paramètres enregistrés", Toast.LENGTH_SHORT).show();
 
                 // TODO : sauvegarder les valeurs dans les préférences partagées
             }
@@ -61,24 +70,12 @@ public class SettingsFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("recherche", Context.MODE_PRIVATE);
         mCommuneEditText.setText(sharedPreferences.getString("commune", ""));
-        mRadiusEditText.setText(sharedPreferences.getString("radius", ""));
+        mRadiusEditText.setText(sharedPreferences.getString("distance", ""));
         mTypeContratEditText.setText(sharedPreferences.getString("typeContrat", ""));
         mNiveauFormationEditText.setText(sharedPreferences.getString("niveauFormation", ""));
         mSecteurActiviteEditText.setText(sharedPreferences.getString("secteurActivite", ""));
+        mMaxResultsEditText.setText(sharedPreferences.getString("maxResults", ""));
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("nom_du_fichier", Context.MODE_PRIVATE);
-
-        mCommuneEditText.setText(sharedPreferences.getString("commune", ""));
-        mRadiusEditText.setText(sharedPreferences.getString("radius", ""));
-        mTypeContratEditText.setText(sharedPreferences.getString("typeContrat", ""));
-        mNiveauFormationEditText.setText(sharedPreferences.getString("niveauFormation", ""));
-        mSecteurActiviteEditText.setText(sharedPreferences.getString("secteurActivite", ""));
     }
 }

@@ -8,6 +8,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Titre de la section -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -15,6 +16,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <!-- Champs de localisation -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,6 +39,7 @@
                 android:hint="Rayon de recherche (km)" />
         </LinearLayout>
 
+        <!-- Champs de type de contrat -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,6 +50,7 @@
             android:layout_height="wrap_content"
             android:hint="Type de contrat" />
 
+        <!-- Champs de niveau de formation -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,6 +61,7 @@
             android:layout_height="wrap_content"
             android:hint="Niveau de formation" />
 
+        <!-- Champs de secteur d'activité -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,11 +72,23 @@
             android:layout_height="wrap_content"
             android:hint="Secteur d'activité" />
 
+        <!-- Champ de maximum de résultats de recherche -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Maximum de résultats de recherche" />
+        <EditText
+            android:id="@+id/max_results_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Maximum de résultats de recherche" />
+
+        <!-- Bouton de validation -->
         <Button
             android:id="@+id/valider_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Appliquer" />
+            android:text="Valider" />
 
     </LinearLayout>
 </ScrollView>
